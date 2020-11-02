@@ -22,3 +22,40 @@
 #Delete these comments before commit!
 #
 #Good luck.
+import random
+
+class Plane:
+    def __init__(self, yaw, roll, pitch , rate_of_correction):
+        self.yaw = yaw
+        self.roll = roll
+        self.pitch = pitch
+        self.rate_of_correction = rate_of_correction
+
+    def simulate_turbulance(self):
+        self.yaw += random.gauss(0, 4) 
+        self.roll += random.gauss(0, 4)
+        self.pitch += random.gauss(0, 4)
+    
+    def detect_current_orientation(self):
+        orientation_dict = []
+        orientation_dict.append(self.yaw)
+        orientation_dict.append(self.roll)
+        orientation_dict.append(self.pitch)
+        return orientation_dict
+
+    def correct_orientation(self):
+        self.yaw -= random.gauss(0, 2*self.rate_of_correction)
+        self.roll -= random.gauss(0, 2*self.rate_of_correction)
+        self.pitch -= random.gauss(0, 2*self.rate_of_correction)
+
+
+
+if __name__ == "__main__":
+    simulation_step = 0
+    simulated_plane = Plane(0, 0, 0, 2)
+    while (simulation_step <= 1000):
+        simulated_plane.simulate_turbulance()
+        orientations = simulated_plane.detect_current_orientation()
+        print(orientations)
+        simulated_plane.correct_orientation()
+        simulation_step += 1
